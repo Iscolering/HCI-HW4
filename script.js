@@ -15,7 +15,9 @@ const newAnswer = document.querySelector("#new-answer");
 const editDialog = document.querySelector("#edit-dialog");
 const editQuestion = document.querySelector("#edit-question");
 const editAnswer = document.querySelector("#edit-answer");
-// TODO: grab references to any necessary elements you added to index.html (search, counter, prev/next buttons)
+const counter = document.querySelector("#counter");
+const prevButton = document.querySelector("#prev-button");
+const nextButton = document.querySelector("#next-button");
 
 
 // ---------- Errors ----------
@@ -79,6 +81,7 @@ function showPage() {
   if (currentIndex < 0) currentIndex = 0;
   renderPreviews();
   showCard();
+  updateCounter();
 }
 
 // Sidebar: one preview per question. Clicking a preview shows that card.
@@ -140,13 +143,30 @@ function showCard() {
 }
 
 
-// ---------- Navigation and search ----------
+// ---------- Navigation ----------
 
-// TODO: Previous / Next. Write functions that change currentIndex to the appropriate value
-// (wrapping around at both ends) and then call showPage(). Then write event listeners to attach these
-// functions to the appropriate Previous/Next buttons. 
+function showPrevious() {
+  if (questions.length === 0) return;
+  currentIndex = (currentIndex - 1 + questions.length) % questions.length;
+  showPage();
+}
 
-// TODO: Update the progress text ("Card 3 of 3") in the counter whenever the card changes.
+function showNext() {
+  if (questions.length === 0) return;
+  currentIndex = (currentIndex + 1) % questions.length;
+  showPage();
+}
+
+function updateCounter() {
+  if (questions.length === 0) {
+    counter.textContent = "No cards";
+  } else {
+    counter.textContent = "Card " + (currentIndex + 1) + " of " + questions.length;
+  }
+}
+
+prevButton.addEventListener("click", showPrevious);
+nextButton.addEventListener("click", showNext);
 
 
 // ---------- Actions ----------
@@ -177,6 +197,11 @@ document.querySelector("#update-button").addEventListener("click", async functio
 });
 
 document.querySelector("#add-button").addEventListener("click", async function () {
+  if (newQuestion.value.trim() === "" || newAnswer.value.trim() === "") {
+    showError("Please enter both a question and an answer before adding a card.");
+    return;
+  }
+  hideError();
   await apiSend("POST", "/add", {
     question: newQuestion.value,
     answer: newAnswer.value

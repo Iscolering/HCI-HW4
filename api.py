@@ -27,6 +27,16 @@ questions = [{
                 "id": 2,
                 "q": "What is the main goal of the ideation phase of iterative design?",
                 "a": "Generating as many possible design solutions as possible"
+                },
+             {
+                "id": 3,
+                "q": "According to Fitts' Law, what two factors determine the time it takes to move to a target?",
+                "a": "The distance to the target and the size of the target"
+                },
+             {
+                "id": 4,
+                "q": "In Gestalt psychology, what principle states that elements placed close together are perceived as a group?",
+                "a": "The principle of proximity"
                 }
             ]
 

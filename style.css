@@ -1,52 +1,156 @@
 body {
   font-family: sans-serif;
   margin: 0;
+  color: #1f2933;
+  background: #f4f6f8;
+}
+
+#page-title {
+  margin: 0;
+  padding: 18px 24px;
+  background: #1f3a5f;
+  color: #ffffff;
+  font-size: 24px;
 }
 
 #layout {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 62px);
 }
 
 #sidebar {
   width: 260px;
-  border-right: 1px solid #ccc;
+  background: #ffffff;
+  border-right: 1px solid #d9dee3;
   padding: 12px;
   box-sizing: border-box;
   overflow-y: auto;
 }
 
+#sidebar h1 {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7785;
+  margin: 4px 8px 12px;
+}
+
 #main {
   flex: 1;
-  padding: 24px;
+  padding: 32px;
   overflow-y: auto;
 }
 
-#page-title {
-    padding-left: 15px;
-}
+/* ---------- Sidebar previews ---------- */
 
 .preview {
-  padding: 8px;
-  color: #999;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+  color: #52606d;
   cursor: pointer;
-  white-space: nowrap;  /* Remove text wrap to only show a preview of each question, not the entire text. */
-  overflow: hidden;            
-  text-overflow: ellipsis; /* Replace overflow text with an ellipsis (...) */
+  border-radius: 6px;
+  border-left: 3px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+.preview:hover {
+  background: #eef2f6;
+  color: #1f2933;
+}
+
+/* Visual feedback for the currently selected question */
+.preview.active {
+  background: #e3edf9;
+  color: #1f3a5f;
+  border-left-color: #1f3a5f;
+  font-weight: bold;
+}
+
+/* ---------- Flashcard (Gestalt: common region + proximity) ---------- */
+
 .card {
-  margin-bottom: 12px;
+  background: #ffffff;
+  border: 1px solid #d9dee3;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(31, 41, 51, 0.08);
+  padding: 24px;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+/* Group the Delete/Edit buttons together, away from the content */
+.card button {
+  float: right;
+  margin-left: 6px;
+  margin-right: 0;
 }
 
 .question {
+  clear: both;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #edf0f3;
+}
+
+/* Signifier: hint that the question can be clicked to reveal the answer */
+.question::after {
+  content: " \25BC Show answer";
+  font-size: 12px;
+  font-weight: normal;
+  color: #8a94a0;
+}
+
+.question:hover {
+  color: #1f3a5f;
 }
 
 .answer {
-  color: #8bc98b;
+  margin-top: 14px;
+  color: #1f6b3a;
   font-weight: bold;
+  font-size: 18px;
+}
+
+/* ---------- Navigation controls ---------- */
+
+#nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 600px;
+  margin-bottom: 28px;
+}
+
+#counter {
+  color: #52606d;
+  font-weight: bold;
+}
+
+/* ---------- Add form ---------- */
+
+#add-form {
+  max-width: 600px;
+  background: #ffffff;
+  border: 1px solid #d9dee3;
+  border-radius: 10px;
+  padding: 20px 24px;
+}
+
+#add-form h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #52606d;
+  margin-bottom: 4px;
 }
 
 .hidden {
@@ -58,32 +162,77 @@ body {
   color: #b00020;
   padding: 10px;
   border-radius: 6px;
+  max-width: 600px;
 }
+
+/* ---------- Buttons (signifiers via hover) ---------- */
 
 button {
   font-size: 14px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   margin-right: 6px;
   cursor: pointer;
-  outline: none;
+  border: 1px solid #1f3a5f;
+  border-radius: 6px;
+  background: #1f3a5f;
+  color: #ffffff;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+button:hover {
+  background: #2d4f7c;
+  box-shadow: 0 2px 4px rgba(31, 41, 51, 0.2);
+}
+
+button:disabled {
+  background: #c7ced6;
+  border-color: #c7ced6;
+  cursor: not-allowed;
 }
 
 input {
   display: block;
   font-size: 16px;
   padding: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   width: 100%;
   box-sizing: border-box;
+  border: 1px solid #c7ced6;
+  border-radius: 6px;
+}
+
+input:focus {
+  outline: 2px solid #1f3a5f;
+  border-color: #1f3a5f;
 }
 
 textarea {
   width: 300px;
   height: 60px;
+  border: 1px solid #c7ced6;
+  border-radius: 6px;
+  padding: 6px;
+  margin-bottom: 10px;
+}
+
+dialog {
+  border: 1px solid #d9dee3;
+  border-radius: 10px;
+  padding: 24px;
 }
 
 dialog .close-btn {
   position: absolute;
   right: 10px;
+  top: 10px;
+  background: transparent;
+  border: none;
   color: #b00020;
+  font-size: 20px;
+  padding: 2px 8px;
+}
+
+dialog .close-btn:hover {
+  background: #fde8e8;
+  box-shadow: none;
 }
